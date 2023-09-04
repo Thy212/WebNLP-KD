@@ -33,5 +33,7 @@ Lưu ý: nếu dự án không thể thực thi do thiếu các gói Nuget Packa
 - X.PagedList.Mvc.Core 8.4.7
 \
 -----------------------------------\
-WebLabDb - là file backup của database. Cần sử dụng SQLServer để restore.
-
+- WebLabDb - là file backup của database. Cần sử dụng SQLServer để restore.
+- Trong trường hợp API chatGPT bị chết, hãy đổi APIKEY bằng các key dưới đây:
+ + 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
+ + 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
