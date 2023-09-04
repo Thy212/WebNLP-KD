@@ -1,0 +1,161 @@
+﻿@model WebLabAI.ViewModels.HomeVM
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@using WebLabAI.Data;
+@inject ApplicationDbContext _context
+
+
+@{
+    ViewData["Title"] = "Home Page";
+    string thumbnailUrl = "";
+    if(Model.ThumbnailUrl == null)
+    {
+        thumbnailUrl = "/weblab/images/technology-background.jpg";
+    }
+    else
+    {
+        thumbnailUrl = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+    var currentDate = DateTime.Now;
+    var listOfCourse = _context.Trainings!.Where(x => x.IsCourse && x.ToDate >= currentDate).ToList();
+    //var culture = new System.Globalization.CultureInfo("vi-VN");
+
+    
+    var listOfPosts = _context.Posts!.OrderByDescending(p => p.CreateDate).Take(10).ToList();
+
+}
+
+
+    <!--Home-->
+
+    <section id="home" style="background-image:linear-gradient(rgba(9, 5, 54, 0.3), rgba(5, 4, 46, 0.7)), url('@thumbnailUrl')">
+        <h2 style="font-weight: bold">@Model.Title</h2>
+        <p>@Model.ShortDescription</p>
+        <p>
+            NLP&KD Lab is dedicated to advancing the understanding and application of language processing techniques,
+            machine learning algorithms, and knowledge discovery methodologies. Whether you're a researcher, a student,
+            or a professional seeking to leverage the power of AI for language-related tasks, our lab is here to support you.
+        </p>
+        <div class="btn-banner">
+            <a class="btn-about" asp-controller="Page" asp-action="About">About Us</a>
+            <a class="btn-contact" asp-controller="Page" asp-action="Contact">Contact Us</a>
+        </div>
+    </section>
+
+    <!--Features-->
+    <section id="features">
+        <h1>Awasome Features</h1>
+        <p>Replenish man have thing gathering lights yielding shall you</p>
+        <div class="fea-base">
+            <div class="fea-box">
+                <i class="fas fa-landmark"></i>
+                <h3>History</h3>
+                <p>
+                    The Lab NPL & KD at Ton Duc Thang University researches in fundermental
+                    issues of natural language understanding, problems of natural language analysis, and knowledge discovery from textual sources.
+                </p>
+            </div>
+            <div class="fea-box">
+                <i class="fas fa-paper-plane"></i>
+                <h3>Mission</h3>
+                <p>
+                    We are committed to pushing the boundaries of language processing and knowledge extraction,
+                    empowering individuals and organizations with the tools and insights they need to make informed decisions and drive meaningful impact.
+                </p>
+            </div>
+            <div class="fea-box">
+                <i class="fas fa-eye"></i>
+                <h3>Vision</h3>
+                <p>
+                    We strive to develop state-of-the-art AI technologies
+                    and methodologies that enable machines to understand, interpret, and generate human language with remarkable accuracy and efficiency.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!--Training-->
+    <section id="training">
+        <h1> Our Training Courses</h1>
+        <p>Learn anytime, anywhere, with just a computer and an internet connection.</p>
+        <div class="course-box">
+            @foreach (var course in listOfCourse)
+            {
+                <div class="courses" style="max-width:530px">
+                    <img src="/thumbnails/@course.ThumbnailUrl" alt="" style="max-height: 250px">
+                    <div class="courses-detail">
+                        <p class="courses-date">Deadline until date: @course.ToDate.ToShortDateString()</p>
+                        <h6>@course.Title</h6>
+                    <a class="btn bg-info" style="text-decoration: none; margin-top: 4%" asp-controller="CourseMeet" asp-action="CouMee" asp-route-slug="@course.Slug"> View course</a>
+                        @if(course.Price == 0)
+                        {
+                            <div class="cost">FREE</div>
+                        }
+                        else
+                        {
+                            <div class="cost">PAID</div>
+                        }
+
+                    </div>
+                </div>
+            }
+            
+            
+        </div>
+    </section>
+
+<!-----------News---------------->
+
+<section id="news">
+    <h1> Lastest News</h1>
+  
+
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+           
+            @foreach (var post in listOfPosts)
+            {
+                
+                <div style="max-width:560px" class="card swiper-slide">
+                    <div class="image-content" style="height: 40%">
+                        <span class="overlay" title="@post.Title" style="background-image: linear-gradient(rgba(9, 5, 54, 0.3), rgba(5, 4, 46, 0.7)), url(/thumbnails/@post.ThumbnailUrl); height: 100%"></span>
+                    </div>
+
+                    <div class="card-content" style="height:60%">
+                        <h2 class="name" title="@post.Title">@post.Title</h2>
+                        <p>Author: @post.ApplicationUser!.FirstName @post.ApplicationUser.LastName  -  @post.CreateDate.ToShortDateString()</p>
+                        @if (post.ShortDescription == null)
+                        {
+                            <p style="line-height: 1.5em; height: 3em; overflow: hidden; text-align: left;" class="description">-</p>
+                        }else{
+                            <p style="line-height: 1.5em; height: 3em; overflow: hidden; text-align: left;" class="description">@post.ShortDescription</p>
+                        }
+                        
+                        <a class="news-button" asp-controller="Blog" asp-action="Post" asp-route-slug="@post.Slug" style="text-decoration: none;">View More</a>
+                    </div>
+                </div>
+            }
+        </div>
+        
+    </div>
+    <div class="swiper-pagination"></div>
+</section>
+
+
+
+    <!--Contact-->
+    <section id="contact" style="background-image: linear-gradient(rgba(99, 112, 168, 0.5), rgba(81, 91, 233, 0.5)), url(/weblab/images/b1.jpg);">
+    <div class="reminder" style="text-align: justify; margin-right: 5%">
+            <h1>
+                If you are interested in collaborating with NLP&KD Lab on research
+                projects or have partnership opportunities, please reach out to us using the contact information provided.
+            </h1>
+        </div>
+        <div class="form" style="text-align: center;">
+             <a class="yellow" asp-controller="Page" asp-action="Contact">Go to Contact</a>
+        </div>
+    </section>
+
+    
+

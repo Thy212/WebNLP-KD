@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Device";
+    //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model List<WebLabAI.ViewModels.DeviceVM>
+
+@{
+    ViewData["Title"] = "Device";
+
+    int count = 1;
+    var culture = new System.Globalization.CultureInfo("vi-VN");
+}
+
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="table-agile-info">
+            <!-- cac nut see, add, delete, edit -->
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-8 m-b-xs"></div>
+
+                <div class="col-sm-4 text-right">
+                    <a asp-action="Create" asp-controller="Device" asp-area="Admin" type="submit" class="btn btn-custom mb-1" style="background-color:#009da5; color:white">
+                        <i class="fa fa-plus" style="cursor: pointer; margin-right: 5px; color: #fff"></i>
+                        Add Device
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <!--card body-->
+
+                <div class="panel-heading" style="margin-bottom: 10px">
+                    LIST OF DEVICE
+                </div>
+
+                <!-- list table of users -->
+                <div class="table-responsive">
+                    <table class="table table-striped b-t b-light" id="staffManager">
+                        <!-- name of collumm -->
+                        <thead>
+                            <tr>
+
+                                <th style="width:15px;">
+                                    <!-- STT -->
+                                </th>
+
+                                <th>Name</th>
+                                <th>Rent</th>
+                                <th>Price</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var device in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            @count
+                                            count++;
+                                        }
+                                    </td>
+                                    <td>@device.DeviceName</td>
+                                    <td>@device.Rent.ToString("C",culture)</td>
+                                    <td>@device.Price.ToString("C",culture)</td>
+                                    <td>
+                                        <a class="fa fa-edit" style="cursor: pointer; margin-left: 6px; color: #009da5; font-size:20px" asp-area="Admin" asp-controller="Device" asp-action="Edit" asp-route-id="@device.Id" method="post"></a>
+                                        <form asp-area="Admin" asp-controller="Device" asp-action="Delete" asp-route-id="@device.Id" method="post" onsubmit="return confirm('Do you want to delete this device?')">
+                                            <button type="submit" style="border: none; background-color: transparent;">
+                                                <i class="fa fa-times" style="cursor: pointer; color:#009da5; font-size:22px"></i>
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</section>
+
+
+
+

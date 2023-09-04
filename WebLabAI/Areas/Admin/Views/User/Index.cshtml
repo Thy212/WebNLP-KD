@@ -1,0 +1,122 @@
+﻿@model List<WebLabAI.ViewModels.UserVM>
+
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> _userManager;
+
+@{
+	ViewData["Title"] = "Index";
+
+	var member = _userManager.Users.ToList();
+	int memberCount = member.Count;
+}
+
+
+	<!--main content start-->
+	<section id="main-content">
+		<section class="wrapper">
+			<div class="table-agile-info" style="width: 100%; background-color: transparent !important; border-radius: 10px; box-shadow: 0px 0px 10px #8b5c7e;">
+				<p style="font-size: 50px; text-align: center; color: rgba(255, 255, 255, 0.8); letter-spacing: 2px; ">Have A Good Day</p>
+			</div >
+			
+			<!-- //market-->
+			<div class="market-updates">
+				
+				<div class="col-md-3 market-update-gd">
+					<div class="market-update-block clr-block-2">
+						<div class="col-md-4 market-update-right">
+							<i class="fa fa-eye"> </i>
+						</div>
+						<div class="col-md-8 market-update-left">
+							<h4>Visitors</h4>
+							<h3>13,500</h3>
+							<p>Other hand, we denounce</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+				<div class="col-md-3 market-update-gd">
+					<div class="market-update-block clr-block-1">
+						<div class="col-md-4 market-update-right">
+							<i class="fa fa-users"></i>
+						</div>
+						<div class="col-md-8 market-update-left">
+							<h4>Users</h4>
+							<h3>@memberCount</h3>
+							<p>Other hand, we denounce</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+				<!---------------------->
+				<div class="agil-info-calendar">
+					<!-- calendar -->
+					<div class="col-md-6 agile-calendar">
+						<div class="calendar-widget">
+							<div class="panel-heading ui-sortable-handle">
+								<span class="panel-icon">
+									<i class="fa fa-calendar-o"></i>
+								</span>
+								<span class="panel-title"> Calendar Widget</span>
+							</div>
+							<!-- grids -->
+							<div class="agile-calendar-grid">
+								<div class="page">
+
+									<div class="w3l-calendar-left">
+										<div class="calendar-heading">
+										</div>
+										<div class="monthly" id="mycalendar"></div>
+									</div>
+
+									<div class="clearfix"> </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //calendar -->
+
+					<div class="clearfix"> </div>
+				</div>
+
+				<div class="clearfix"> </div>
+
+			</div>
+
+		</section>
+	<!-- calendar -->
+	<script type="text/javascript" src="~/AssetsAd/js/monthly.js"></script>
+	<script type="text/javascript">
+		$(window).load(function () {
+
+			$('#mycalendar').monthly({
+				mode: 'event',
+
+			});
+
+			$('#mycalendar2').monthly({
+				mode: 'picker',
+				target: '#mytarget',
+				setWidth: '250px',
+				startHidden: true,
+				showTrigger: '#mytarget',
+				stylePast: true,
+				disablePast: true
+			});
+
+			switch (window.location.protocol) {
+				case 'http:':
+				case 'https:':
+					// running on a server, should be good.
+					break;
+				case 'file:':
+					alert('Just a heads-up, events will not work when run locally.');
+			}
+
+		});
+	</script>
+	<!-- //calendar -->
+	</section>
+	<!--main content end-->
+
+
+

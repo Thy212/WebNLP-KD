@@ -1,0 +1,167 @@
+﻿@model WebLabAI.ViewModels.TrainingVM
+
+@{
+    ViewData["Title"] = "Edit Meeting";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <header class="panel-heading">
+            Edit Course
+            <span class="tools pull-right">
+                <a class="fa fa-times" asp-action="IndexMeeting" asp-controller="Training" asp-area="Admin"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="form">
+                <form asp-action="EditMeeting" asp-controller="Training" asp-area="Admin" class="cmxform form-horizontal " id="signupForm" novalidate="novalidate" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ThumbnailUrl" />
+                    <div class="row mb-2">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Title</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="Title" type="text">
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Register Url</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class="form-control" asp-for="RegisterUrl" type="text">
+                                    <span asp-validation-for="RegisterUrl" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Date</label>
+                                <div class="col-md-4" style="width:31.5%;">
+                                    <input class="form-control" asp-for="ToDate" type="date" value="@Model.ToDate.ToString("yyyy-MM-dd")">
+                                    <span asp-validation-for="ToDate" class="text-danger"></span>
+                                </div>
+
+                                <label class="control-label col-md-2">Price</label>
+                                <div class="col-md-4" style="width:31.5%;">
+                                    <input class="form-control" asp-for="Price" type="number" min="0" max="999999999" oninput="formatCurrency(this)">
+                                    <a style="color:gray; margin: 10px 12px;"> <span id="formatted-price"></span> VND </a>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Instructor/Teacher</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="Teacher" type="text">
+                                    <span asp-validation-for="Teacher" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2" style="width: 14%; padding-right:0px; margin-right:15px">Video Record</label>
+                                <div class="col-md-2" style="width:5%;">
+                                    <input asp-for="VideoRecord" type="checkbox" style="width: 20px" class="checkbox">
+                                    <span asp-validation-for="VideoRecord" class="text-danger"></span>
+                                </div>
+
+                                <label class="control-label col-md-2" style="width: 14%; padding-right:0px;">Resources</label>
+                                <div class="col-md-2" style="width:5%;">
+                                    <input asp-for="Resources" type="checkbox" style="width: 20px" class="checkbox">
+                                    <span asp-validation-for="Resources" class="text-danger"></span>
+                                </div>
+
+                                <label class="control-label col-md-2" style="width: 14%; padding-right:0px;">Assignment</label>
+                                <div class="col-md-2" style="width:5%;">
+                                    <input asp-for="Assignment" type="checkbox" style="width: 20px" class="checkbox">
+                                    <span asp-validation-for="Assignment" class="text-danger"></span>
+                                </div>
+
+                                <label class="control-label col-md-2" style="width: 14%; padding-right:0px;">Certificate</label>
+                                <div class="col-md-2" style="width:5%;">
+                                    <input asp-for="Certificate" type="checkbox" style="width: 20px" class="checkbox">
+                                    <span asp-validation-for="Certificate" class="text-danger"></span>
+                                </div>
+
+                                <label class="control-label col-md-2" style="width: 14%; padding-right:0px;">Join online</label>
+                                <div class="col-md-2" style="width:5%;">
+                                    <input asp-for="Online" type="checkbox" style="width: 20px" class="checkbox">
+                                    <span asp-validation-for="Online" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Short Description</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="ShortDescription" type="text">
+                                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Description</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <textarea id="richEditor" class="form-control" style="width:100%" asp-for="Description" type="text" rows="8"> </textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="mb-2">
+                                @{
+                                    if (Model.ThumbnailUrl == null)
+                                    {
+                                        <img src="~/thumbnails/default-image.jpg" class="img-fluid" width="25%" id="thumbnail" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/thumbnails/@Model.ThumbnailUrl" class="img-fluid" width="25%" id="thumbnail" />
+                                    }
+                                }
+
+                            </div>
+                            <div class="mb-2" style="margin-top:15px">
+                                <label>Thumbnail</label>
+                                <input class="form-control custom-file" asp-for="Thumbnail" type="file" style="width: 180px">
+                                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="text-align: center; margin-top: 10px">
+                        <div class="col-lg-offset-3 col-lg-6">
+                            <button class="btn btn-primary" type="submit">Save Meeting</button>
+                            <a asp-action="IndexMeeting" asp-controller="Training" asp-area="Admin" class="btn btn-default" type="button">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</section>
+<script>
+    function formatCurrency(input) {
+        // Lấy giá trị của trường nhập
+        let value = input.value;
+        // Định dạng lại giá trị theo địa phương
+        value = parseInt(value).toLocaleString("en-US");
+        // Cập nhật lại giá trị của thẻ span
+        document.getElementById("formatted-price").textContent = value;
+    }
+</script>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".custom-file").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0])
+        });
+    </script>
+}
+
+
+
+

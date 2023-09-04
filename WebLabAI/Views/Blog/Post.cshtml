@@ -1,0 +1,35 @@
+﻿@model WebLabAI.ViewModels.BlogPostVM
+
+@{
+    ViewData["Title"] = "Post";
+    string thumbnailUrl = "";
+    if (Model.ThumbnailUrl == null)
+    {
+        thumbnailUrl = "/weblab/images/technology-background.jpg";
+    }
+    else
+    {
+        thumbnailUrl = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+}
+
+    <section id="blog-container">
+        <div class="blogs postpage">
+            <div class="post">
+                <img src="@thumbnailUrl" alt="">
+                <h1>@Model.Title</h1>
+                <h3 class="author-post" style="color: grey;">Posted by @Model.AuthorName</h3>
+                <h4 class="date-post" style="color: grey; font-weight: normal; padding-bottom: 20px;">@Model.CreateDate.ToShortDateString()</h4>
+               
+                <p>
+                    @Model.ShortDescription
+                </p>
+                
+                <p>
+                    @Html.Raw(Model.Description)
+                </p>
+                <a class="blue" asp-action="News" asp-controller="Page">Back</a>
+            </div>
+        </div>
+    </section>
+

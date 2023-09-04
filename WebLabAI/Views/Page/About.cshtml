@@ -1,0 +1,188 @@
+﻿@using WebLabAI.ViewModels;
+@using WebLabAI.Data;
+@inject ApplicationDbContext _context
+@model WebLabAI.ViewModels.PageVM
+
+@{
+    ViewData["Title"] = "About";
+    // lay anh cua page do dua vao, hien tai minh dang link anh tu css
+    // anh tai header
+    string pageThumbnail = "";
+    if (Model.ThumbnailUrl == null)
+    {
+        pageThumbnail = "/weblab/images/technology-background.jpg";
+
+    }
+    else
+    {
+        pageThumbnail = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+    //lay dl tu user
+    var appUser = _context.ApplicationUser!.ToList();
+
+    //lau dl tu parter
+    var ListOfpartner = _context.Partners!.ToList();
+
+}
+
+
+    
+
+    <section id="about-home" style="background-image:linear-gradient(rgba(9, 5, 54, 0.3), rgba(5, 4, 46, 0.7)), url('@pageThumbnail')">
+        <div>
+            <h2 style="font-weight: bold">@Model.Title</h2>
+            <h5 style="color:white; margin-top: 3%">@Model.ShortDescription</h5>
+        </div>
+        
+    </section>
+
+    <section id="about-container">
+        <div class="about-img">
+            <img src="/weblab/images/a.png" alt="">
+        </div>
+
+        <div class="about-text">
+            <h2>Welcome to NLP&KD Lab</h2>
+            <p>
+                The Laboratory on Natural Language Processing (NLP) and Knowledge Discovery (KD) at Ton Duc Thang University researches in fundermental issues of natural
+                language understanding, problems of natural language analysis, and knowledge discovery from textual sources.
+            </p>
+
+            <div class="about-fe">
+                <img src="/weblab/images/fe1.png" alt="">
+                <div class="fe-text">
+                    <h5>50+ Project</h5>
+                    <p>You can see in under our site</p>
+                </div>
+            </div>
+            <div class="about-fe">
+                <img src="/weblab/images/fe2.png" alt="">
+                <div class="fe-text">
+                    <h5>50+ Project</h5>
+                    <p>You can see in under our site</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="features">
+        <h1>Awasome Features</h1>
+        <p>Replenish man have thing gathering lights yielding shall you</p>
+        <div class="fea-base">
+            <div class="fea-box">
+                <i class="fas fa-landmark"></i>
+                <h3>History</h3>
+                <p>
+                    The Lab NPL & KD at Ton Duc Thang University researches in fundermental
+                    issues of natural language understanding, problems of natural language analysis, and knowledge discovery from textual sources.
+                </p>
+            </div>
+            <div class="fea-box">
+                <i class="fas fa-paper-plane"></i>
+                <h3>Mission</h3>
+                <p>
+                    We are committed to pushing the boundaries of language processing and knowledge extraction,
+                    empowering individuals and organizations with the tools and insights they need to make informed decisions and drive meaningful impact.
+                </p>
+            </div>
+            <div class="fea-box">
+                <i class="fas fa-eye"></i>
+                <h3>Vision</h3>
+                <p>
+                    We strive to develop state-of-the-art AI technologies
+                    and methodologies that enable machines to understand, interpret, and generate human language with remarkable accuracy and efficiency.
+                </p>
+            </div>
+        </div>
+    </section>
+
+  <!---------Member------------>
+
+<section id="member">
+    <h1> Members</h1>
+    <p>We do with passion.</p>
+    <div class="swiper2 mySwiper">
+        <div class="swiper-wrapper" style="max-height: 800px">
+
+            @foreach (var user in appUser)
+            {
+                @if (user.Email != "admin@gmail.com")
+                {
+                    <div class="card swiper-slide">
+                        <div class="image-content">
+                            <span class="overlay"></span>
+                            <div class="card-image">
+                                @if (@user.ThumbnailUrl == null)
+                                {
+                                    <img src="~/thumbnails/defaut-avt.jpg" alt="" class="card-img">
+                                }
+                                else
+                                {
+                                    <img src="~/thumbnails/@user.ThumbnailUrl" alt="" class="card-img">
+                                }
+                            </div>
+                        </div>
+
+                        <div class="card-content" style="height: 60%">
+                            @if (user.Education == null)
+                            {
+                                <h2 class="degree">-</h2>
+                            }
+                            else
+                            {
+                                <h2 class="degree">@user.Education</h2>
+                            }
+
+                            <h2 class="name">@user.LastName @user.FirstName</h2>
+                            @if (@user.Position == null)
+                            {
+                                <h2 class="position">-</h2>
+                            }
+                            else
+                            {
+                                <h2 class="position">@user.Position</h2>
+                            }
+
+                            <div class="icons-links">
+                                <a href="@user.LinkedinUrl">
+                                    <i class="fab fa-linkedin fa-lg"></i>
+                                </a>
+                                <a href="@user.GithubUrl">
+                                    <i class="fab fa-github fa-lg"></i>
+                                </a>
+                                <a href="mailto:@user.Email" title="@user.Email">
+                                    <i class="fas fa-envelope fa-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+    <div class="swiper-pagination"></div>
+
+</section>
+
+    <!-----------Partner------------------>
+    <section id="trust">
+        <h1>Trusted By</h1>
+        <p>Replenish man have thing gathering lights yielding shall you</p>
+        <div class="trust-images">
+            @foreach (var par in ListOfpartner)
+            {
+                if(par.ThumbnailUrl == null)
+                {
+                <img onclick="window.open('@par.LinkWebsite', '_blank')" src="~/thumbnails/default-image.jpg" alt="" title="@par.Name">
+                }
+                else
+                {
+                <img onclick="window.open('@par.LinkWebsite', '_blank')" src="~/thumbnails/@par.ThumbnailUrl" alt="" title="@par.Name">
+                }
+                
+            }
+            
+        </div>
+    </section>

@@ -1,0 +1,266 @@
+﻿@using WebLabAI.Data
+@using WebLabAI.ViewModels;
+@inject ApplicationDbContext _context
+
+@{
+    var setting = _context.Settings!.ToList();
+    var vm = new SettingVM()
+    {
+        SiteName = setting[0].SiteName,
+        GithubUrl = setting[0].GithubUrl,
+        FacebookUrl = setting[0].FacebookUrl,
+        LinkedinUrl = setting[0].LinkedinUrl,
+    };
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewData["Title"] - @vm.SiteName</title> <!--Home Page-->
+    
+    <link rel="stylesheet" href="~/weblab/css/style.css">
+    <link rel="stylesheet" href="~/weblab/css/navigation.css">
+    <link rel="stylesheet" href="~/weblab/css/home.css">
+    <link rel="stylesheet" href="~/weblab/css/btn-view-courses.css">
+    <link rel="stylesheet" href="~/weblab/css/footer.css">
+    <link rel="stylesheet" href="~/weblab/css/member.css">
+    <link rel="stylesheet" href="~/weblab/css/features.css">
+    <link rel="stylesheet" href="~/weblab/css/member-carousel.css">
+
+    <link rel="stylesheet" href="~/weblab/css/about.css">
+    <link rel="stylesheet" href="~/weblab/css/contact.css">
+    <link rel="stylesheet" href="~/weblab/css/course-inner.css">
+    <link rel="stylesheet" href="~/weblab/css/news.css">
+    <link rel="stylesheet" href="~/weblab/css/post.css">
+    <link rel="stylesheet" href="~/weblab/css/project.css">
+    @*<link rel="stylesheet" href="~/weblab/css/swiper-bundle.min.css">*@
+    <link rel="stylesheet" href="~/weblab/css/chatbot.css">
+
+    <script src="~/weblab/js/chatbot.js" defer></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+   
+
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" defer></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" defer></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js" defer></script>
+
+    <script src="~/weblab/js/project-table.js" defer></script>
+    <link href="~/weblab/css/swiper-bundle.min.css" rel="stylesheet" />
+   
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper{
+            width: 90%;
+            height: 100%;
+        }
+
+        .swiper2 {
+            width: 90%;
+            height: 100%;
+        }
+
+        .swiper-slide{
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: inline;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+
+        .swiper {
+            width: 90%;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        .swiper2 {
+            width: 90%;
+            max-height: 350px;
+            margin: 20px auto;
+        }
+
+        .append-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .append-buttons button {
+                display: inline-block;
+                cursor: pointer;
+                border: 1px solid #007aff;
+                color: #007aff;
+                text-decoration: none;
+                padding: 4px 10px;
+                border-radius: 4px;
+                margin: 0 10px;
+                font-size: 13px;
+            }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-start;
+            margin: 20px 0;
+        }
+
+        .pagination a {
+            display: block;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            border: 1px solid #009da5;
+            text-decoration: none;
+            color: #333;
+        }
+
+                .pagination a:hover {
+                    background-color: #eee;
+                }
+    </style>
+   
+</head>
+
+<body>
+
+    <nav>
+        <a asp-controller="Home" asp-action="Index">
+            <img onclick="window.location.href='index.html'" src="~/weblab/images/logo1.png" alt="">
+        </a>
+
+        <div class="navigation">
+            <ul>
+                <li id="menu-close" class="fas fa-times"></li>
+                <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+                <li><a asp-controller="Page" asp-action="About">About</a></li>
+                <li><a asp-controller="Page" asp-action="News">News</a></li>
+                <li><a asp-controller="Page" asp-action="Training">Training</a></li>
+                <li><a asp-controller="Page" asp-action="Contact">Contact</a></li>
+                <li><a asp-controller="Page" asp-action="Research">Project</a></li>
+                <li><a class="blue" asp-action="Login" asp-controller="User" asp-area="Admin">Login</a></li>
+            </ul>
+            <img id="menu-btn" src="~/weblab/images/menu.png" alt="">
+        </div>
+    </nav>
+
+    @RenderBody();
+
+    <section id="chatbot">
+        <button class="chatbot-toggler">
+            <div class="tooltip">
+                Chatbot
+            </div>
+            <i class="fas fa-comments" style="color: #f5f5f5;"></i>
+        </button>
+        <div class="chatbot">
+            <header>
+                <h2>Chatbot</h2>
+                <span class="close-btn material-symbols-outlined">close</span>
+            </header>
+            <ul class="chatbox">
+                <li class="chat incoming">
+                    <span class="material-symbols-outlined"><img src="../images/chatbot_logo.png" alt="" style="max-width: 30px;max-height: 30px; display: block; margin: 0 auto;"></span>
+                    <p>Hi there <br>How can I help you today?</p>
+                </li>
+            </ul>
+            <div class="chat-input">
+                <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
+                <span id="send-btn" class="material-symbols-rounded">send</span>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="footer-col">
+            <h3><a asp-controller="Page" asp-action="About">About</a></h3>
+        </div>
+
+        <div class="footer-col">
+            <h3><a asp-controller="Page" asp-action="News">News</a></h3>
+        </div>
+
+        <div class="footer-col">
+            <h3><a asp-controller="Page" asp-action="Training">Training</a></h3>
+        </div>
+
+        <div class="footer-col">
+            <h3><a asp-controller="Page" asp-action="Research">Project & Research</a></h3>
+        </div>
+
+        <div class="footer-col">
+            <h3>Newsletter</h3>
+            <p>You can trust us. we only send promo offers,</p>
+            <div class="subscribe">
+                <input type="text" name="" placeholder="Your Email Address" id="">
+                <a class="yellow" href="#">SUBSCRIBE</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Copyright ©2024 All rights reserved | This template is made by Nguyen Le Bao Thy(51900230) & Phan Thanh Binh(51900017)</p>
+            <div class="pro-link">
+                <a href="@vm.FacebookUrl"><i class="fab fa-facebook-f"></i></a>
+                <a href="@vm.GithubUrl"><i class="fab fa-github"></i></a>
+                <a href="@vm.LinkedinUrl"><i class="fab fa-linkedin-in"></i></a>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <script>
+        $("#menu-btn").click(function () {
+            $("nav .navigation ul").addClass("active");
+        });
+        $("#menu-close").click(function () {
+            $("nav .navigation ul").removeClass("active");
+        });
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 50,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+
+    </script>
+
+    
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
+</body>
+
+    
+</html>

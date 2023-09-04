@@ -1,0 +1,293 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> _userManager;
+@{
+	var loggedInUser = new ApplicationUser();
+	loggedInUser = _userManager.Users?.FirstOrDefault(x => x.Email == User.Identity!.Name);
+}
+
+<!DOCTYPE html>
+	<head>
+		<title>@ViewData["Title"] - Dashboard</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<!-- bootstrap-css -->
+		<link rel="stylesheet" href="~/AssetsAd/css/bootstrap.min.css">
+		<!-- //bootstrap-css -->
+		<!-- Custom CSS -->
+		<link href="~/AssetsAd/css/style.css" rel='stylesheet' type='text/css' />
+		<link href="~/AssetsAd/css/style-responsive.css" rel="stylesheet" />
+		<!-- font CSS -->
+		<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+		<!-- font-awesome icons -->
+		<link rel="stylesheet" href="~/AssetsAd/css/font.css" type="text/css" />
+		<link href="~/AssetsAd/css/font-awesome.css" rel="stylesheet">
+		<link rel="stylesheet" href="~/AssetsAd/css/morris.css" type="text/css" />
+		<!--data table-->
+		<link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" rel="stylesheet">
+	
+		<!-- calendar -->
+		<link rel="stylesheet" href="~/AssetsAd/css/monthly.css">
+		<!-- //calendar -->
+		<!-- //font-awesome icons -->
+		<script src="~/AssetsAd/js/jquery2.0.3.min.js"></script>
+		<script src="~/AssetsAd/js/raphael-min.js"></script>
+		<script src="~/AssetsAd/js/morris.js"></script>
+	</head>
+	<body>
+		<section id="container">
+			<!--header start-->
+			<header class="header fixed-top clearfix">
+				<!--logo start-->
+				<div class="brand">
+					<a asp-action="Index" asp-controller="User" asp-area="Admin" class="logo">
+						LAB.AI
+					</a>
+					<div class="sidebar-toggle-box">
+						<div class="fa fa-bars"></div>
+					</div>
+				</div>
+				<!--logo end-->
+			
+				<div class="top-nav clearfix">
+					<!--search & user info start-->
+					<ul class="nav pull-right top-menu">
+						
+						<!-- user login dropdown start-->
+						<li class="dropdown">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<img src="/thumbnails/@loggedInUser?.ThumbnailUrl">
+								<span class="username">
+									@loggedInUser?.LastName @loggedInUser?.FirstName
+								</span>
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu extended logout">
+							
+								<li>
+									<form asp-action="Logout" asp-controller="User" asp-area="Admin" class="btn-dark">
+										<button class="btn">
+											<i class="fa fa-key"></i>  
+											Log Out
+										</button>
+									</form>
+								</li>
+								
+								<li>
+									<a class="active" asp-action="Index" asp-controller="Profile" asp-area="Admin">
+										<i class="fa fa-book"></i>
+										<span>Profile</span>
+									</a>
+								</li>
+
+								<li>
+									<a class="active" asp-action="ChangePassword" asp-controller="User" asp-area="Admin">
+										<i class="fa fa-shield"></i>
+									<span style="word-wrap: break-word;">Change Password</span>
+									</a>
+								</li>
+							
+							</ul>
+						</li>
+						<!-- user login dropdown end -->
+
+					</ul>
+					<!--search & user info end-->
+				</div>
+			</header>
+			<!--header end-->
+
+			<!--sidebar start-->
+			<aside>
+				<div id="sidebar" class="nav-collapse">
+					<!-- sidebar menu start-->
+					<div class="leftside-navigation">
+						<ul class="sidebar-menu" id="nav-accordion">
+							@if (User.IsInRole("Admin"))
+							{
+								<li>
+									<a class="active" asp-action="Index" asp-controller="User" asp-area="Admin">
+										<i class="fa fa-dashboard"></i>
+										<span>Dashboard</span>
+									</a>
+								</li>
+								<li>
+									<a asp-action="StaffManager" asp-controller="User" asp-area="Admin">
+										<i class="fa fa-briefcase"></i>
+										<span>Staff Manager</span>
+									</a>
+								</li>
+								
+								<li>
+									<a asp-action="Index" asp-controller="Post" asp-area="Admin">
+										<i class="fa fa-tasks"></i>
+										<span>Post Manager</span>
+									</a>
+								</li>
+
+								<li class="sub-menu">
+									<a href="javascript:;">
+										<i class="fa fa-book"></i>
+										<span>Page</span>
+									</a>
+									<ul class="sub">
+										<li><a asp-action="About" asp-controller="Page" asp-area="Admin">About</a></li>
+										<li><a asp-action="Contact" asp-controller="Page" asp-area="Admin">Contact</a></li>
+										<li>
+										<a>Research & Project</a>
+											<ul class="sub">
+												<li><a asp-action="Research" asp-controller="Page" asp-area="Admin">Setting Research Page</a></li>
+												<li><a asp-action="Index" asp-controller="Research" asp-area="Admin">Publications</a></li>
+											</ul>
+										</li>
+										
+										<li>
+											<a>News</a>
+											<ul class="sub">
+												<li><a asp-action="News" asp-controller="Page" asp-area="Admin">Setting News Page</a></li>
+												<li><a asp-action="Index" asp-controller="Post" asp-area="Admin">Add News</a></li>
+											</ul>
+										</li>
+										<li>
+											<a>Device</a>
+											<ul class="sub">
+												<li><a asp-action="Device" asp-controller="Page" asp-area="Admin">Setting Device Page</a></li>
+												<li><a asp-action="Index" asp-controller="Device" asp-area="Admin">Add Device</a></li>
+											</ul>
+										</li>
+										<li>
+											<a>Training</a>
+											<ul class="sub">
+												<li><a asp-action="Training" asp-controller="Page" asp-area="Admin">Setting Training Page</a></li>
+												<li><a asp-action="IndexCourse" asp-controller="Training" asp-area="Admin">Course</a></li>
+												<li><a asp-action="IndexMeeting" asp-controller="Training" asp-area="Admin">Meeting</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+
+								<li>
+									<a asp-action="Index" asp-controller="Partner" asp-area="Admin">
+										<i class="fa fa-code-fork"></i>
+										<span>Partner</span>
+									</a>
+								</li>
+
+								<li>
+									<a asp-action="Index" asp-controller="Setting" asp-area="Admin">
+										<i class="fa fa-cog"></i>
+										<span>Setting</span>
+									</a>
+								</li>
+							}
+						
+							@if (User.IsInRole("Author"))
+							{
+								<li>
+									<a asp-action="Index" asp-controller="Post" asp-area="Admin">
+										<i class="fa fa-tasks"></i>
+										<span>Posts</span>
+									</a>
+								</li>
+
+								<li class="sub-menu">
+									<a href="javascript:;">
+										<i class="fa fa-book"></i>
+										<span>Page</span>
+									</a>
+									<ul class="sub">
+
+										<li><a asp-action="Index" asp-controller="Research" asp-area="Admin">Publications</a></li>
+										<li><a asp-action="Index" asp-controller="Post" asp-area="Admin">Add News</a></li>
+										<li><a asp-action="IndexCourse" asp-controller="Training" asp-area="Admin">Course</a></li>
+										<li><a asp-action="IndexMeeting" asp-controller="Training" asp-area="Admin">Meeting</a></li>
+										
+									</ul>
+								</li>
+							}
+						
+
+
+						</ul>
+					</div>
+					<!-- sidebar menu end-->
+				</div>
+			</aside>
+			<!--sidebar end-->
+
+			@RenderBody();
+
+		
+		</section>
+
+		<section id="main-content"> 
+			<!-- footer -->
+			<div class="footer">
+				<div class="wthree-copyright">
+					<p>© 2023 Visitors. All rights reserved</p>
+				</div>
+			</div>
+			<!-- / footer -->
+		</section>
+	
+	
+		<script src="~/AssetsAd/js/bootstrap.js"></script>
+		<script src="~/AssetsAd/js/jquery.dcjqaccordion.2.7.js"></script>
+		<script src="~/AssetsAd/js/scripts.js"></script>
+		<script src="~/AssetsAd/js/jquery.slimscroll.js"></script>
+		<script src="~/AssetsAd/js/jquery.nicescroll.js"></script>
+		<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
+		<script src="~/AssetsAd/js/jquery.scrollTo.js"></script>
+
+		<!-- calendar -->
+		<script type="text/javascript" src="~/AssetsAd/js/monthly.js"></script>
+		<script type="text/javascript">
+			$(window).load(function () {
+
+				$('#mycalendar').monthly({
+					mode: 'event',
+
+				});
+
+				$('#mycalendar2').monthly({
+					mode: 'picker',
+					target: '#mytarget',
+					setWidth: '250px',
+					startHidden: true,
+					showTrigger: '#mytarget',
+					stylePast: true,
+					disablePast: true
+				});
+
+				switch (window.location.protocol) {
+					case 'http:':
+					case 'https:':
+						// running on a server, should be good.
+						break;
+					case 'file:':
+						alert('Just a heads-up, events will not work when run locally.');
+				}
+
+			});
+		</script>
+		<!-- //calendar -->
+		<!--data table-->
+		<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+		<script src="https://cdn.tiny.cloud/1/7qjkjvz7eegr5schf3b8iwvemcxjb82zvn5nvbm02u8l4xkb/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+	
+		<script>
+			let table = new DataTable('#staffManager');
+
+			tinymce.init({
+				selector: '#richEditor',
+				plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+				toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+			});
+		</script>
+		@await RenderSectionAsync("Scripts", required: false)
+		@await Component.InvokeAsync("Notyf")
+	</body>
+</html>

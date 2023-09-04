@@ -1,0 +1,179 @@
+﻿@model WebLabAI.ViewModels.PageVM
+@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@using WebLabAI.Data;
+@inject ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "News";
+
+    string pageThumbnail = "";
+    if (Model.ThumbnailUrl == null)
+    {
+        pageThumbnail = "/weblab/images/technology-background.jpg";
+
+    }
+    else
+    {
+        pageThumbnail = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+
+    //int pageSize = 5;
+    //int pageNumber = (page ?? 1);
+    var listOfNews = _context.Posts!.OrderByDescending(p => p.CreateDate).ToList();
+    //var pagedListOfNews = listOfNews.ToPagedList(pageNumber, pageSize);
+    
+}
+
+
+    <section id="about-home" style="background-image:linear-gradient(rgba(9, 5, 54, 0.3), rgba(5, 4, 46, 0.7)), url('@pageThumbnail')">
+        <div>
+            <h2 style="font-weight: bold">@Html.Raw(Model.Title)</h2>
+            <h5 style="color:white; margin-top: 3%">@Model.ShortDescription</h5>
+        </div>
+        
+    </section>
+
+    <section id="blog-container">
+        <div>
+            <div class="blogs">
+                @foreach (var news in listOfNews)
+                {
+                    <div class="post">
+                        <img src="/thumbnails/@news.ThumbnailUrl" alt="">
+                        <h3>@news.Title</h3>
+                        <h5 class="date-post" style="color: grey; font-weight: normal; padding-bottom: 20px;">@news.CreateDate.ToString("dd/MM/yyyy")</h5>
+                        <p>@news.ShortDescription</p>
+                        <a class="blue" asp-controller="Blog" asp-action="Post" asp-route-slug="@news.Slug">Read More</a>
+                    </div>
+                }
+
+
+            </div>
+            
+            <script>
+                // Get the list of news elements
+                var newsList = document.querySelectorAll('.post');
+
+                // Set the number of news per page
+                var newsPerPage = 5;
+
+                // Calculate the number of pages
+                var numPages = Math.ceil(newsList.length / newsPerPage);
+
+                // Create a function to display the news for a given page
+                function showPage(page) {
+                    // Calculate the start and end index for the current page
+                    var startIndex = (page - 1) * newsPerPage;
+                    var endIndex = startIndex + newsPerPage;
+
+                    // Hide all news elements
+                    for (var i = 0; i < newsList.length; i++) {
+                        newsList[i].style.display = 'none';
+                    }
+
+                    // Show the news elements for the current page
+                    for (var i = startIndex; i < endIndex && i < newsList.length; i++) {
+                        newsList[i].style.display = 'block';
+                    }
+
+                    // Highlight the current page in the pagination links
+                    var paginationLinks = document.querySelectorAll('.pagination a');
+                    for (var i = 0; i < paginationLinks.length; i++) {
+                        if (parseInt(paginationLinks[i].textContent) === page) {
+                            paginationLinks[i].className = 'current';
+                        } else {
+                            paginationLinks[i].className = '';
+                        }
+                    }
+                }
+
+                // Create a function to generate pagination links
+                function generatePagination() {
+                    // Create a container for the pagination links
+                    var paginationContainer = document.createElement('div');
+                    paginationContainer.className = 'pagination';
+
+                    // Create the left arrow button
+                    var leftArrow = document.createElement('a');
+                    leftArrow.href = '#';
+                    leftArrow.textContent = '←';
+                    leftArrow.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        var currentPage = parseInt(document.querySelector('.pagination a.current').textContent);
+                        if (currentPage > 1) {
+                            showPage(currentPage - 1);
+                        }
+                    });
+                    paginationContainer.appendChild(leftArrow);
+
+                    // Create the pagination links
+                    for (var i = 1; i <= numPages; i++) {
+                        var link = document.createElement('a');
+                        link.href = '#';
+                        link.textContent = i;
+                        link.addEventListener('click', function (event) {
+                            event.preventDefault();
+                            showPage(parseInt(this.textContent));
+                        });
+                        paginationContainer.appendChild(link);
+                    }
+
+                    // Create the right arrow button
+                    var rightArrow = document.createElement('a');
+                    rightArrow.href = '#';
+                    rightArrow.textContent = '→';
+                    rightArrow.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        var currentPage = parseInt(document.querySelector('.pagination a.current').textContent);
+                        if (currentPage < numPages) {
+                            showPage(currentPage + 1);
+                        }
+                    });
+                    paginationContainer.appendChild(rightArrow);
+
+                    // Add the pagination links to the page
+                    document.querySelector('.blogs').parentNode.appendChild(paginationContainer);
+                }
+
+                // Initialize the pagination
+                showPage(1);
+                generatePagination();
+            </script>
+        </div>
+        
+
+        <div class="cate">
+            <h2>Categories</h2>
+            <hr>
+            <a href="#">
+                <p>Web Development</p>
+            </a>
+            <hr>
+            <a href="#">
+                <p>Web Design</p>
+            </a>
+            <hr>
+            <a href="#">
+                <p>App Development</p>
+            </a>
+            <hr>
+            <a href="#">
+                <p>Frontend Web</p>
+            </a>
+            <hr>
+            <a href="#">
+                <p>Python Programming</p>
+            </a>
+            <hr>
+            <a href="#">
+                <p>Javascript Hacks</p>
+            </a>
+        </div>
+
+    </section>
+
+
+
+   

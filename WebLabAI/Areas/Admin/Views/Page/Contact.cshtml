@@ -1,0 +1,180 @@
+﻿@model WebLabAI.ViewModels.PageVM
+@using WebLabAI.Data;
+@inject ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "Contact Page";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    int count = 1;
+    var listOfSend = _context.ContactForms!.ToList();
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <header class="panel-heading">
+            Edit The Information On The Contact Page
+            <span class="tools pull-right"> <!--nut dong 'x'-->
+                <a class="fa fa-times" asp-action="Index" asp-controller="User" asp-area="Admin"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="form">
+                <form asp-action="Contact" asp-controller="Page" asp-area="Admin" class="cmxform form-horizontal " id="signupForm" novalidate="novalidate" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ThumbnailUrl" />
+                    <div class="row mb-2">
+                        <div class="col-md-9">
+                            <div>
+                                <h3>Header</h3>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Title</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="Title" type="text">
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Short Description</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <textarea class=" form-control" asp-for="ShortDescription" type="text" rows="4"></textarea>
+                                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div style="color: black; margin-top:20px">
+                                <h3>Information</h3>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Phone</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="Phone" type="text">
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Contact Email</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <textarea class=" form-control" asp-for="Email" type="text" rows="2"></textarea>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Address</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <textarea class=" form-control" asp-for="Address" type="text" rows="4"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="mb-2">
+                                @{
+                                    if (Model.ThumbnailUrl == null)
+                                    {
+                                        <img src="~/thumbnails/default-image.jpg" class="img-fluid" width="25%" id="thumbnail" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/thumbnails/@Model.ThumbnailUrl" class="img-fluid" width="25%" id="thumbnail" />
+                                    }
+                                } 
+
+                            </div>
+                            <div class="mb-2" style="margin-top:15px">
+                                <label>Thumbnail</label>
+                                <input class="form-control custom-file" asp-for="Thumbnail" type="file" style="width: 180px">
+                                <span asp-validation-for="Description" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="text-align: center; margin-top: 10px">
+                        <div class="col-lg-offset-3 col-lg-6">
+                            <button class="btn btn-primary" type="submit">Update Contact Page</button>
+                            <a asp-action="Index" asp-controller="User" asp-area="Admin" class="btn btn-default" type="button">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="panel panel-default" style="margin: 20px 20px; border-radius: 10px;">
+        <!--card body-->
+
+        <div class="panel-heading" style="margin-bottom: 10px; border-radius: 10px;">
+            The List Of People Who Request Contact
+        </div>
+
+        <!-- list table of users -->
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light" id="staffManager">
+                <!-- name of collumm -->
+                <thead>
+                    <tr>
+
+                        <th style="width:15px;">
+                            <!-- STT -->
+                        </th>
+
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Message</th>
+                        <th>Date Send</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var send in listOfSend.OrderByDescending(s => s.DateSend))
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    @count
+                                    count++;
+                                }
+                            </td>
+                            <td>@send.LastName @send.FirstName</td>
+                            <td>@send.Email</td>
+                            <td>@send.Phone</td>
+                            <td style="width: 40%">@send.Message</td>
+                            <td>@send.DateSend</td>
+                            <td>
+
+                                <form asp-area="Admin" asp-controller="Page" asp-action="Delete" asp-route-id="@send.Id" method="post" onsubmit="return confirm('Do you want to delete this contact?')">
+                                    <button type="submit" style="border: none; background-color: transparent;">
+                                        <i class="fa fa-times" style="cursor: pointer; color:#009da5; font-size:22px"></i>
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".custom-file").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0])
+        });
+    </script>
+}
+
+
+
+

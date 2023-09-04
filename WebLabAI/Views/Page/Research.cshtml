@@ -1,0 +1,55 @@
+﻿@model WebLabAI.ViewModels.PageVM
+@using WebLabAI.ViewModels;
+@using WebLabAI.Data;
+@inject ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "Research";
+
+    string pageThumbnail = "";
+    if (Model.ThumbnailUrl == null)
+    {
+        pageThumbnail = "/weblab/images/technology-background.jpg";
+
+    }
+    else
+    {
+        pageThumbnail = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+
+    var publications = _context.Researchs!.ToList();
+}
+
+    <section id="about-home">
+        <div>
+            <h2 style="font-weight: bold">@Model.Title</h2>
+            <h5 style="color:white; margin-top: 3%">@Model.ShortDescription</h5>
+        </div>
+        
+    </section>
+
+<section id="project-container">
+    <h1>Publications</h1>
+    <table id="tabel-project" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Creator</th>
+                <th>Date</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pub in publications)
+            {
+                <tr>
+                    <td>@pub.Title</td>
+                    <td>@pub.AuthorName</td>
+                    <td>@pub.CreateDate.ToString("yyyy")</td>
+                    <td><a href="@pub.LinkWebsite" style="color: #009da5;"><i class="fas fa-link"></i></a></td>
+                </tr>
+            }
+            
+    </table>
+</section>
+   

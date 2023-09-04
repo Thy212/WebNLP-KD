@@ -1,0 +1,123 @@
+﻿@model WebLabAI.ViewModels.PageVM  //cái này của title trang
+@using WebLabAI.ViewModels;
+@using WebLabAI.Data;
+@inject ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "Device";
+
+    string pageThumbnail = "";
+    if (Model.ThumbnailUrl == null)
+    {
+        pageThumbnail = "/weblab/images/technology-background.jpg";
+
+    }
+    else
+    {
+        pageThumbnail = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+
+    var listOfdevice = _context.Devices!.ToList(); // lấy ra danh sách thiết bị
+
+    var culture = new System.Globalization.CultureInfo("vi-VN");
+}
+
+<section class="header-Device" style="background-image: linear-gradient(rgba(4,9,30,0.85), rgba(4,9,30,0.85)), url('@pageThumbnail')">
+    <nav>
+        <a asp-controller="Home" asp-action="Index"><img src="~/weblab/images/Logo.png"></a>
+        <div class="nav-links" id="navLinks">
+            <i class="fa fa-times" onclick="hideMenu()"></i>
+            <div>
+                <div class="header-btn">
+                    <button class="contact-btn"><a asp-controller="Page" asp-action="Contact" style="color:white">CONTACT</a></button>
+                    <button type="button" class="contact-btn  wthree-link-bnr bg-transparent text-secondary"
+                            data-toggle="modal" aria-pressed="false" data-target="#changePassword">
+                        Change Password
+                    </button>
+                    <button class="login-btn"><a asp-action="Login" asp-controller="User">LOGIN</a></button>
+                </div>
+            </div>
+            <div>
+                <ul class="header-ul">
+                    <li><a asp-controller="Home" asp-action="Index">HOME</a></li>
+                    <li><a asp-controller="Page" asp-action="About">ABOUT</a></li>
+                    <li><a asp-controller="Page" asp-action="News">NEWS</a></li>
+                    <li><a asp-controller="Page" asp-action="Research">PROJECT & RESEARCH</a></li>
+                    <li><a asp-controller="Page" asp-action="Device">DEVICE</a></li>
+                    <li><a asp-controller="Page" asp-action="Training">TRAINING</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <i class="fa fa-bars" onclick="showMenu()"></i>
+
+    </nav>
+
+    <!-----------Navigation bar animation------------>
+
+    <script>
+        window.addEventListener("scroll", function () {
+            var nav = document.querySelector("nav");
+            nav.classList.toggle("sticky", window.scrollY)
+            var prevScrollpos = window.pageYOffset;
+            window.onscroll = function () {
+                var currentScrollPos = window.pageYOffset;
+                var currentScrollPos = 0;
+                var prevScrollpos = window.pageYOffset || document.documentElement.prevScrollpos;
+                if (prevScrollpos > currentScrollPos) {
+                    document.querySelector(".header-btn").style.display = "none";
+                } else {
+                    document.querySelector(".header-btn").style.display = "inline-flex";
+                }
+                currentScrollPos = prevScrollpos;
+            }
+        })
+    </script>
+
+    <div class="text-box">
+        <h1>@Html.Raw(Model.Title)</h1>
+        <p>@Model.ShortDescription</p>
+    </div>
+    
+</section>
+
+<!-----------JavaScrpit for Toggele Menu------------>
+<script>
+    var navLinks = document.getElementById("navLinks");
+
+    function showMenu() {
+        navLinks.style.right = "0";
+    }
+    function hideMenu() {
+        navLinks.style.right = "-200px";
+    }
+</script>
+
+<!--------------Device------------>
+<section class="Training">
+    <h1>Tental Equipment</h1>
+    
+    <div class="row">
+        @foreach (var devi in listOfdevice)
+        {
+            <div class="training-col">
+                @{
+                    if (@devi.ThumbnailUrl == null)
+                    {
+                        <img src="~/thumbnails/default-Publications.jpg" id="thumbnail" />
+                    }
+                    else
+                    {
+                        <img src="~/thumbnails/@devi.ThumbnailUrl" id="thumbnail" />
+                    }
+                }
+                <h5>@devi.DeviceName</h5>
+                <h5 style="font-size:0.9rem; color:white">Rent: @devi.Rent.ToString("C",culture)</h5>
+                <h5 style="font-size:0.9rem; color:white">Price: @devi.Price.ToString("C",culture)</h5>
+            </div>
+        }
+
+       
+    </div>
+
+</section>

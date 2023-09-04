@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Partner";
+    //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model List<WebLabAI.ViewModels.PartnerVM>
+
+
+
+<section id="main-content">
+    <section class="wrapper">
+        <!-- cac nut see, add, delete, edit -->
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-sm-8 m-b-xs">
+                <a href="" class="active" ui-toggle-class="">
+                    <i class="fa fa-eye" style="cursor: pointer; margin-right: 24px; margin-left: 15px; color: #009da5"></i>
+                    <i class="fa fa-edit" style="cursor: pointer; margin-right: 24px; color: #009da5"></i>
+                    <i class="fa fa-times" style="cursor: pointer; margin-right: 24px; color: #009da5"></i>
+                </a>
+            </div>
+
+            <div class="col-sm-4 text-right" style="color: #009da5">
+                <a asp-action="Create" asp-controller="Partner" asp-area="Admin" type="submit" class="btn btn-primary mb-1">
+                    <i class="fa fa-plus" style="cursor: pointer; margin-right: 5px; color: #fff"></i>
+                    Add Partner
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <!--card body-->
+
+            <div class="panel-heading" style="margin-bottom: 10px">
+                LIST OF PARTNER
+            </div>
+
+            <div class="card-body">
+                @foreach (var par in Model)
+                {
+                    <div class="rounded mb-4 bg-white p-2">
+                        <div class="row" style="margin-bottom: 15px; margin:10px; box-shadow: 0px 0px 50px #8b5c7e; border-radius: 10px;">
+                            <div class="col-sm-2">
+                                @if (par.ThumbnailUrl == null)
+                                {
+                                    <img class="img-fluid" src="~/thumbnails/default-image.jpg" style="object-fit:cover; height:130px; width:100%">
+
+                                }
+                                else
+                                {
+                                    <img class="img-fluid" src="~/thumbnails/@par.ThumbnailUrl" style="object-fit:cover; height:130px; width:100%">
+                                }
+                            </div>
+                            <div class="col-sm-5" style="margin-top: 12px; display: flex; flex-direction: column; justify-content: center;">
+                                <h4 style="font-size:1.3rem; font-weight:bold; color: #fff; " class="fw-bold">@par.Name</h4>
+                                <a style="font-size:0.9rem; padding-top:15px" href="@Html.Raw(par.LinkWebsite)">Link website</a>
+                            </div>
+                            <div class="col-sm-5 text-right" style="margin-top: 12px">
+                                <h4></h4>
+                                <div class="d-flex justify-content-end align-items-center" style="margin-top:10px">
+                                    <a class="fa fa-edit" style="cursor: pointer; margin-right: 10px; color: #ddede0; font-size:20px" asp-area="Admin" asp-controller="Partner" asp-action="Edit" asp-route-id="@par.Id" method="post"></a> |
+                                    <form asp-area="Admin" asp-controller="Partner" asp-action="Delete" asp-route-id="@par.Id" method="post" onsubmit="return confirm('Do you want to delete this partner?')">
+                                        <button type="submit" style="border: none; background-color: transparent;">
+                                            <i class="fa fa-times" style="cursor: pointer; margin-right: 15px; color:#ddede0; font-size:22px"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+

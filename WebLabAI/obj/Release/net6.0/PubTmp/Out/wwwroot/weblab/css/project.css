@@ -1,0 +1,25 @@
+#project-container{
+    padding: 50px;
+}
+
+#project-container h1{
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+
+@media (max-width:769px) {
+    
+    #project-container{
+        padding: 8vw 4vw;
+    }
+   
+}
+
+@media (max-width: 475px) {
+    
+    #project-container{
+        flex-direction: column;
+    }
+
+}

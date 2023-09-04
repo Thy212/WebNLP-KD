@@ -1,0 +1,19 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\WebLabAI",
+    "\\WebLabAI\\Areas",
+    "\\WebLabAI\\Areas\\Admin",
+    "\\WebLabAI\\Areas\\Admin\\Views",
+    "\\WebLabAI\\Areas\\Admin\\Views\\User",
+    "\\WebLabAI\\Views",
+    "\\WebLabAI\\Views\\Page",
+    "\\WebLabAI\\wwwroot",
+    "\\WebLabAI\\wwwroot\\AssetsAd",
+    "\\WebLabAI\\wwwroot\\AssetsAd\\css",
+    "\\WebLabAI\\wwwroot\\weblab",
+    "\\WebLabAI\\wwwroot\\weblab\\css"
+  ],
+  "SelectedNode": "\\WebLabAI.sln",
+  "PreviewInSolutionExplorer": false
+}

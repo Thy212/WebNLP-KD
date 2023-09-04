@@ -1,0 +1,137 @@
+﻿@model WebLabAI.ViewModels.EditStaff
+
+@{
+    ViewData["Title"] = "EditStaff";
+    //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <header class="panel-heading">
+            Edit Staff Information
+            <span class="tools pull-right">
+                <a class="fa fa-times" asp-action="StaffManager" asp-controller="User" asp-area="Admin"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="form">
+                <form asp-action="Edit" asp-controller="User" asp-area="Admin" class="cmxform form-horizontal " id="signupForm" novalidate="novalidate" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="form-group ">
+                                <label for="firstname" class="control-label col-lg-2">Firstname</label>
+                                <div class="col-lg-8">
+                                    <input class=" form-control" asp-for="FisrtName" type="text">
+                                    <span asp-validation-for="FisrtName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-2">Lastname</label>
+                                <div class="col-lg-8">
+                                    <input class=" form-control" asp-for="LastName" type="text">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="birthday" class="control-label col-lg-2">Birthday</label>
+                                <div class="col-lg-8">
+                                    <input class=" form-control" asp-for="Birthday" type="date">
+                                    <span asp-validation-for="Birthday" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="education" class="control-label col-lg-2">Education</label>
+                                <div class="col-lg-8">
+                                    <input class=" form-control" asp-for="Education" type="text">
+                                    <span asp-validation-for="Education" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="position" class="control-label col-lg-2">Position</label>
+                                <div class="col-lg-8">
+                                    <input class=" form-control" asp-for="Position" type="text">
+                                    <span asp-validation-for="Position" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="email" class="control-label col-lg-2">Email</label>
+                                <div class="col-lg-8">
+                                    <input class=" form-control" asp-for="Email" type="text">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Github Url</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" asp-for="GithubUrl" type="text">
+                                    <span asp-validation-for="GithubUrl" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Linkedin Url</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" asp-for="LinkedinUrl" type="text">
+                                    <span asp-validation-for="LinkedinUrl" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="isAdmin" class="control-label col-lg-2 col-sm-3">Is Admin?</label>
+                                <div class="col-lg-8 col-sm-3">
+                                    <input asp-for="IsAdmin" type="checkbox" style="width: 20px" class="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-2">
+                                @{
+                                    if (Model.ThumbnailUrl == null)
+                                    {
+                                        <img src="~/thumbnails/default-image.jpg" class="img-fluid" width="80%" id="thumbnail" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/thumbnails/@Model.ThumbnailUrl" class="img-fluid" width="80%" id="thumbnail" />
+                                    }
+                                }
+
+                            </div>
+                            <div class="mb-2" style="margin-top:15px">
+                                <label>Thumbnail</label>
+                                <input class="form-control custom-file" asp-for="Thumbnail" type="file" style="width: 180px">
+                                <span asp-validation-for="Thumbnail" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="text-align: center; margin-top: 10px">
+                        <div class="col-lg-offset-3 col-lg-6">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <a asp-action="StaffManager" asp-controller="User" asp-area="Admin" class="btn btn-default" type="button">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial" />
+        <script>
+            $(".custom-file").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0])
+            });
+        </script>
+    }
+</section>
+
+
+
+

@@ -1,0 +1,120 @@
+﻿@model WebLabAI.ViewModels.DeviceVM
+
+@{
+    ViewData["Title"] = "Edit Device";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <header class="panel-heading">
+            Edit Device
+            <span class="tools pull-right">
+                <a class="fa fa-times" asp-action="Index" asp-controller="Device" asp-area="Admin"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="form">
+                <form asp-action="Edit" asp-controller="Device" asp-area="Admin" class="cmxform form-horizontal " id="signupForm" novalidate="novalidate" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ThumbnailUrl" />
+                    <div class="row mb-2">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Device Name</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="DeviceName" type="text">
+                                    <span asp-validation-for="DeviceName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Rent</label>
+                                <div class="col-md-4" style="width: 31.5%">
+                                    <input class="form-control" asp-for="Rent" type="number" min="1000" max="999999999" oninput="formatCurrency(this)">
+                                    <a style="color:gray; margin: 10px 12px;"> <span id="formatted-price"></span> VND </a>
+                                    <span asp-validation-for="Rent" class="text-danger"></span>
+
+                                </div>
+                                <label class="control-label col-md-2">Price</label>
+                                <div class="col-md-4" style="width:31.5%;">
+
+                                    <input class="form-control" asp-for="Price" type="number" min="1000" max="999999999" oninput="formatCurrency2(this)">
+                                    <a style="color:gray; margin: 10px 12px;"> <span id="formatted-price2"></span> VND </a>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-2">
+                                @{
+                                    if (Model.ThumbnailUrl == null)
+                                    {
+                                        <img src="~/thumbnails/default-image.jpg" class="img-fluid" width="80%" id="thumbnail" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/thumbnails/@Model.ThumbnailUrl" class="img-fluid" width="80%" id="thumbnail" />
+                                    }
+                                }
+
+                            </div>
+                            <div class="mb-2" style="margin-top:15px">
+                                <label>Thumbnail</label>
+                                <input class="form-control custom-file" asp-for="Thumbnail" type="file" style="width: 180px;margin-bottom:10px">
+                                <span asp-validation-for="ThumbnailUrl" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="text-align: center; margin-top: 10px">
+                        <div class="col-lg-offset-3 col-lg-6">
+                            <button class="btn btn-primary" type="submit">Save Device</button>
+                            <a asp-action="Index" asp-controller="Device" asp-area="Admin" class="btn btn-default" type="button">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</section>
+
+<script>
+    function formatCurrency(input) {
+        // Lấy giá trị của trường nhập
+        let value = input.value;
+        // Định dạng lại giá trị theo địa phương
+        value = parseInt(value).toLocaleString("en-US");
+        // Cập nhật lại giá trị của thẻ span
+        document.getElementById("formatted-price").textContent = value;
+    }
+</script>
+<script>
+    function formatCurrency2(input) {
+        // Lấy giá trị của trường nhập
+        let value = input.value;
+        // Định dạng lại giá trị theo địa phương
+        value = parseInt(value).toLocaleString("en-US");
+        // Cập nhật lại giá trị của thẻ span
+        document.getElementById("formatted-price2").textContent = value;
+    }
+</script>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".custom-file").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0])
+        });
+    </script>
+}
+
+
+
+

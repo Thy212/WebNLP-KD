@@ -1,0 +1,95 @@
+﻿@model WebLabAI.ViewModels.PageVM
+
+@{
+    ViewData["Title"] = "About Page";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <header class="panel-heading">
+            Edit The Information On The About Page
+            <span class="tools pull-right"> <!--nut dong 'x'-->
+                <a class="fa fa-times" asp-action="Index" asp-controller="User" asp-area="Admin"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="form">
+                <form asp-action="About" asp-controller="Page" asp-area="Admin" class="cmxform form-horizontal " id="signupForm" novalidate="novalidate" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ThumbnailUrl" />
+                    <div class="row mb-2">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Title</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="Title" type="text">
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Short Description</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class=" form-control" asp-for="ShortDescription" type="text">
+                                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Description</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <textarea id="richEditor" class="form-control" style="width:100%" asp-for="Description" type="text" rows="8"> </textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="mb-2">
+                                @{
+                                    if (Model.ThumbnailUrl == null)
+                                    {
+                                        <img src="~/thumbnails/default-image.jpg" class="img-fluid" width="25%" id="thumbnail" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/thumbnails/@Model.ThumbnailUrl" class="img-fluid" width="25%" id="thumbnail" />
+                                    }
+                                } 
+
+                            </div>
+                            <div class="mb-2" style="margin-top:15px">
+                                <label>Thumbnail</label>
+                                <input class="form-control custom-file" asp-for="Thumbnail" type="file" style="width: 180px">
+                                <span asp-validation-for="Description" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="text-align: center; margin-top: 10px">
+                        <div class="col-lg-offset-3 col-lg-6">
+                            <button class="btn btn-primary" type="submit">Update About Page</button>
+                            <a asp-action="Index" asp-controller="User" asp-area="Admin" class="btn btn-default" type="button">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</section>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".custom-file").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0])
+        });
+    </script>
+}
+
+
+
+

@@ -1,0 +1,99 @@
+﻿@model WebLabAI.ViewModels.PartnerVM
+
+@{
+    ViewData["Title"] = "Add Partner";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <header class="panel-heading">
+            Add Partner
+            <span class="tools pull-right">
+                <a class="fa fa-times" asp-action="Index" asp-controller="Partner" asp-area="Admin"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="form">
+                <form asp-action="Create" asp-controller="Partner" asp-area="Admin" class="cmxform form-horizontal " id="signupForm" novalidate="novalidate" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Partner Name</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class="form-control" asp-for="Name" type="text">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Link Website</label>
+                                <div class="col-md-7" style="width:80%">
+                                    <input class="form-control" asp-for="LinkWebsite" type="text">
+                                    <span asp-validation-for="LinkWebsite" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-2">
+                                <img src="~/thumbnails/default-image.jpg" class="img-fluid" width="80%" id="thumbnail" />
+                            </div>
+                            <div class="mb-2" style="margin-top:15px">
+                                <label>Thumbnail</label>
+                                <input class="form-control custom-file" asp-for="Thumbnail" type="file" style="width: 180px; margin-bottom:10px">
+                                <span asp-validation-for="ThumbnailUrl" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="text-align: center; margin-top: 10px">
+                        <div class="col-lg-offset-3 col-lg-6">
+                            <button class="btn btn-primary" type="submit">Add Partner</button>
+                            <a asp-action="Index" asp-controller="Partner" asp-area="Admin" class="btn btn-default" type="button">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</section>
+<script>
+    function formatCurrency(input) {
+        // Lấy giá trị của trường nhập
+        let value = input.value;
+        // Định dạng lại giá trị theo địa phương
+        value = parseInt(value).toLocaleString("en-US");
+        // Cập nhật lại giá trị của thẻ span
+        document.getElementById("formatted-price").textContent = value;
+    }
+</script>
+<script>
+    function formatCurrency2(input) {
+        // Lấy giá trị của trường nhập
+        let value = input.value;
+        // Định dạng lại giá trị theo địa phương
+        value = parseInt(value).toLocaleString("en-US");
+        // Cập nhật lại giá trị của thẻ span
+        document.getElementById("formatted-price2").textContent = value;
+    }
+</script>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".custom-file").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0])
+        });
+    </script>
+}
+
+
+
+
+

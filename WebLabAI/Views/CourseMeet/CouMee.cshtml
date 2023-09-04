@@ -1,0 +1,97 @@
+﻿@model WebLabAI.ViewModels.BlogTrainingVM
+
+@{
+    ViewData["Title"] = "Detail";
+    string thumbnailUrl = "";
+    if (Model.ThumbnailUrl == null)
+    {
+        thumbnailUrl = "/weblab/images/technology-background.jpg";
+    }
+    else
+    {
+        thumbnailUrl = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+
+    var culture = new System.Globalization.CultureInfo("vi-VN");
+}
+
+<section id="about-home">
+    <h2>Sign up for our popular courses and meetings to improve your skills</h2>
+</section>
+
+<section id="course-inner">
+    <div class="overview">
+        <img class="course-img" src="@thumbnailUrl" alt="">
+        <div class="course-head">
+            <div class="c-name">
+                <h2>@Model.Title</h2>
+                
+                @if (Model.IsCourse == true)
+                {
+                    <p style="margin-top:10px; font-size:1.3rem">Deadline until date:  @Model.ToDate.ToShortDateString()</p>
+                }
+                else
+                {
+                    <p style="margin-top:10px; font-size:1.3rem">Date of occurrence:  @Model.ToDate.ToShortDateString()</p>
+                }
+                <br>
+                <p style="font-size:1.3rem">@Model.ShortDescription</p>
+            </div>
+            @if (@Model.Price == 0)
+            {
+                <span>FREE</span>
+            }
+            else
+            {
+                <span>@Model.Price.ToString("C",culture)</span>
+            }
+
+        </div>
+        <h3>Instructor</h3>
+        <div class="tutor">
+            <img src="/weblab/images/c4.jpg" alt="">
+            <div class="tutor-det" style="display: flex;align-items: center; ">
+                <p style="font-size: 1.4rem;">@Model.Teacher</p>
+            </div>
+        </div>
+        <hr>
+        <h3>Overview</h3>
+        <p>@Html.Raw(Model.Description)</p>
+        <hr>
+        
+
+    </div>
+
+    <div class="enroll">
+        <h3>Includes:</h3>
+        @if (Model.VideoRecord == true)
+        {
+            <p><i class="far fa-video"></i>Record video</p>
+        }
+        @if (Model.Resources == true)
+        {
+            <p><i class="far fa-cloud-download"></i>Downloadable resources</p>
+        }
+        @if (Model.Assignment == true)
+        {
+            <p><i class="far fa-paperclip"></i>Assignments</p>
+        }
+        @if (Model.Certificate == true)
+        {
+            <p><i class="far fa-trophy-alt"></i>Certificate of completion</p>
+        }
+        @if (Model.Online == true)
+        {
+            <p><i class="fas fa-mobile-alt"></i>Join online</p>
+        }
+        else
+        {
+            <p><i class="fas fa-group"></i>Join offline</p>
+        }
+
+        <div class="enroll-btn">
+            <a class="blue" href="@Model.RegisterUrl" target="_blank">Enroll Here</a>
+        </div>
+    </div>
+</section>
+

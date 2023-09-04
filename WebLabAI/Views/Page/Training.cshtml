@@ -1,0 +1,97 @@
+﻿@using WebLabAI.ViewModels;
+@using WebLabAI.Data;
+@inject ApplicationDbContext _context
+@model WebLabAI.ViewModels.PageVM  //pageVm để gọi hình ảnh, shortDesr cho header
+
+@{
+    ViewData["Title"] = "Training";
+
+    string pageThumbnail = "";
+    if (Model.ThumbnailUrl == null)
+    {
+        pageThumbnail = "/weblab/images/technology-background.jpg";
+
+    }
+    else
+    {
+        pageThumbnail = "/thumbnails/" + Model.ThumbnailUrl;
+    }
+    var currentDate = DateTime.Now;
+    //var culture = new System.Globalization.CultureInfo("vi-VN");
+    // ds meeting
+    var listOfMeeting = _context.Trainings!.Where(x => !x.IsCourse && x.ToDate >= currentDate).ToList();
+
+    // ds khóa học
+    var listOfCourse = _context.Trainings!.Where(x => x.IsCourse && x.ToDate >= currentDate).ToList();
+}
+
+
+
+    <section id="about-home" style="background-image:linear-gradient(rgba(9, 5, 54, 0.3), rgba(5, 4, 46, 0.7)), url('@pageThumbnail')">
+        <div>
+            <h2 style="font-weight: bold">@Model.Title</h2>
+            <h5 style="color:white; margin-top: 3%">@Model.ShortDescription</h5>
+        </div>
+        
+    </section>
+    <!---------------training---------------->
+    <section id="training">
+        <h1> Our Training Courses</h1>
+        <p>Learn anytime, anywhere, with just a computer and an internet connection.</p>
+        <div class="course-box">
+            @foreach (var course in listOfCourse)
+            {
+            <div class="courses" style="max-width:530px; margin-right: 20px;">
+                    <img src="/thumbnails/@course.ThumbnailUrl" alt=""> 
+                    <div class="courses-detail">
+                        <p class="courses-date">Deadline until date: @course.ToDate.ToShortDateString()</p>
+                        <h6>@course.Title</h6>
+                        <a class="btn bg-info" style="text-decoration: none; margin-top: 4%" asp-controller="CourseMeet" asp-action="CouMee" asp-route-slug="@course.Slug">View course</a>
+
+                        @if (course.Price == 0)
+                        {
+                            <div class="cost">FREE</div>
+                        }
+                        else
+                        {
+                            <div class="cost">PAID</div>
+                        }
+                        
+                    </div>
+                </div>
+            }
+            
+        </div>
+    </section>
+
+
+    <!-------------Meeting------------------->
+    <section id="training">
+        <h1>Our Meeting</h1>
+        <p>Meet to hear us share experiences and expand connections.</p>
+        <div class="course-box">
+
+            @foreach (var meet in listOfMeeting)
+            {
+            <div class="courses" style="max-width:530px; margin-right: 20px;">
+                    <img src="/thumbnails/@meet.ThumbnailUrl" alt="">
+                    <div class="courses-detail">
+                        <p class="courses-date">Date: @meet.ToDate.ToShortDateString()</p>
+                        <h6>@meet.Title</h6>
+                        <a class="btn bg-info" style="text-decoration: none; margin-top: 4%" asp-controller="CourseMeet" asp-action="CouMee" asp-route-slug="@meet.Slug"> View Meeting</a>
+                        
+                        @if (meet.Price == 0)
+                        {
+                            <div class="cost">FREE</div>
+                        }
+                        else
+                        {
+                            <div class="cost">PAID</div>
+                        }
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
